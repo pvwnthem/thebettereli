@@ -1,8 +1,9 @@
 import React from "react";
+import Body from "./components/body"
 function App() {
   return (
     <div className="App" role="main">
-      <p>e</p>
+      < Body />
     </div>
   );
 }
