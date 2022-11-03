@@ -2,34 +2,124 @@ import React from 'react'
 import axios from 'axios';
 import {useState, useRef, useEffect} from 'react';
 import { isJSDocMemberName } from 'typescript';
+import { useCookies } from "react-cookie";
+
 interface Props {
     
 }
  
 const Body= (props:any) => {
-    const baseupdateurl:string = "https://devinspo.herokuapp.com/api/v1/posts/eli/updatelike"
+
+    const current = new Date();
+
+
+
+// add a function to reset the cookie back to [] before adding to it
+const nextYear = new Date();
+nextYear.setFullYear(current.getFullYear() + 1);
+
+
+    const [cookies, setCookie] = useCookies(['likes'])
+    const [num, setNum] = useState(Number(props.likes))
+    function removelikefromcookie(eli: number) {
+        const old = Array(cookies.likes).flat()
+        const value = eli
+
+        let newarr:any = [] 
+
+        newarr = old.filter(item => item !== value)
+        console.log(newarr)
+        setCookie('likes', newarr, {
+            path: "/",
+            expires: nextYear
+        })
+
+
+    }
+
+
+
+
+    
+
+    function addliketocookie (eli:number) {
+        if(cookies.likes) {
+            const old = Array(cookies.likes).flat()
+            console.log(old)
+            if (old.includes(eli) ) {
+                console.log('already added to cookie')
+            }
+            else {
+                old.push(eli)
+            setCookie('likes', old, {
+                path: '/',
+                expires: nextYear,
+                
+            } )
+            }
+            
+        }
+        else {
+            setCookie('likes', eli, {
+                path: "/",
+                expires: nextYear
+            });
+        }
+    }
+    function resolvebutton(eli:number) {
+        const old = Array(cookies.likes).flat()
+        if (old.includes(eli) ) {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+
+
+
+
+
+
+
+
+
+
+
+    const baseupdateurl:string = "https://devinspo.herokuapp.com/api/v1/posts/eli/addlike?eli=1"
+    const baseupdateurl2:string = "https://devinspo.herokuapp.com/api/v1/posts/eli/removelike?eli=2"
+    const baseupdateurl3:string = "https://devinspo.herokuapp.com/api/v1/posts/eli/addlike?eli=2"
+    const baseupdateurl4:string = "https://devinspo.herokuapp.com/api/v1/posts/eli/removelike?eli=1"
     const eurl:string = "https://devinspo.herokuapp.com/api/v1/posts/eli/getlikes?eli=1"
     const curl:string = "https://devinspo.herokuapp.com/api/v1/posts/eli/getlikes?eli=2"
     const [data, setData] = useState(0)
     const [data2, setData2] = useState(0)
 
-    const [button1, setButton1] = useState(false)
-    const [button2, setButton2] = useState(false)
+    const [button1, setButton1] = useState(resolvebutton(1))
+    const [button2, setButton2] = useState(resolvebutton(2))
 
     const handler1 = () => {
+        addliketocookie(1)
+        axios.get(baseupdateurl)
         setButton1(true)
         setData(data + 1)
     }
     const handler12 = () => {
+        removelikefromcookie(1)
+        axios.get(baseupdateurl4)
         setButton1(false)
         setData(data - 1)
         
     }
     const handler2 = () => {
+        addliketocookie(2)
+        axios.get(baseupdateurl3)
         setButton2(true)
         setData2(data2 + 1)
     }
     const handler22 = () => {
+        removelikefromcookie(2)
+        axios.get(baseupdateurl2)
         setButton2(false)
         setData2(data2 - 1)
         
@@ -105,6 +195,7 @@ const Body= (props:any) => {
             </div>
         </>
     );
-}
+                    }
+
  
 export default Body;
