@@ -2,8 +2,10 @@
   "name": "tbe",
   "version": "0.1.61",
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "@types/React": "^18.0.24",
+    "@types/React-dom": "^18.0.8",
+    
+    "react-scripts": "^5.0.1",
     "web-vitals": "^3.0.3"
   },
   "eslintConfig": {
@@ -14,5 +16,17 @@
   "devDependencies": {
     "typescript": "latest",
     "react-refresh": "0.10.0"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
