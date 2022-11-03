@@ -2,8 +2,8 @@
   "name": "tbe",
   "version": "0.1.61",
   "dependencies": {
-    "@types/React": "^18.0.24",
-    "@types/React-dom": "^18.0.8",
+    "@types/react": "^18.0.24",
+    "@types/react-dom": "^18.0.8",
     
     "react-scripts": "^5.0.1",
     "web-vitals": "^3.0.3"
